@@ -6,6 +6,7 @@ An automated environment setup using Docker and Docker Compose. This project orc
 - nginx
 - mariaDB
 - wordpress
+  
 The project is to be cloned on a virtual machine. Makefile copies the secrets and .env file from host computer via shared folder. 
 There is also .env template included within the project.
 Use make help to show options.
