@@ -1,4 +1,4 @@
-# Inception
+![Inception Banner](demo/inception_banner.png)
 
 A fully containerized web infrastructure that orchestrates NGINX, WordPress, and MariaDB using Docker Compose — built entirely from scratch without pre-built images.
 
