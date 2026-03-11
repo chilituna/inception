@@ -4,20 +4,16 @@ A fully containerized web infrastructure that orchestrates NGINX, WordPress, and
 
 ## Overview
 
-Inception is a system administration project from the 42 School curriculum that replicates a production-like web server stack inside a virtual machine. Every service runs in its own custom-built Docker container, with strict isolation enforced through a private Docker network, persistent named volumes, and Docker secrets for credential management.
+Inception is a system administration project from the 42 School curriculum that replicates a production-like web server stack. Every service runs in its own custom-built Docker container, with strict isolation enforced through a private Docker network, persistent named volumes, and Docker secrets for credential management.
 
 The goal was to understand how real infrastructure is assembled — not by pulling ready-made images, but by writing each Dockerfile from scratch, configuring each service manually, and wiring everything together securely with TLS-only HTTPS.
 
 **Score: 100/100**  
 *Completed as part of the 42 School curriculum.*
 
-## Demo / Screenshots
+## Demo
 
-> *Screenshots or a demo GIF of the running WordPress site can be added here.*
-
-| Service Overview | WordPress Site |
-|---|---|
-| ![Architecture diagram placeholder](images/architecture.png) | ![WordPress site placeholder](images/wordpress.png) |
+![Inception Demo](demo/inception.gif)
 
 ## Tech Stack
 
@@ -73,14 +69,13 @@ The goal was to understand how real infrastructure is assembled — not by pulli
 
 ### Prerequisites
 
-- A Linux virtual machine (the project is designed to run on a VM)
 - Docker Engine 20.10+
 - Docker Compose v2.0+
 - `make`
 
 ### Setup
 
-1. **Clone the repository inside the VM:**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/chilituna/inception.git
    cd inception
@@ -95,10 +90,10 @@ The goal was to understand how real infrastructure is assembled — not by pulli
    echo "your_wp_user_password"   > secrets/wp_user_pw.txt
    ```
 
-3. **Create the environment file** from the provided template:
+3. **Create and fill in the environment file** from the provided template:
    ```bash
    cp srcs/template.env srcs/.env
-   # Edit srcs/.env and fill in all required values
+   # Edit srcs/.env — see the Environment Variables section below
    ```
 
 4. **Build and start the stack:**
@@ -110,6 +105,24 @@ The goal was to understand how real infrastructure is assembled — not by pulli
    ```
    https://<your-domain>/
    ```
+
+### Environment Variables
+
+All non-secret configuration lives in `srcs/.env`. Copy `srcs/template.env` and fill in each value:
+
+| Variable | Description | Example |
+|---|---|---|
+| `DOMAIN_NAME` | Domain used by NGINX and WordPress | `aarponen.42.fr` |
+| `DB_NAME` | Database name for WordPress | `wordpress_db` |
+| `DB_USER` | Database user | `wordpress_user` |
+| `DB_HOST` | Database host (service name in Compose) | `mariadb` |
+| `SITE_TITLE` | Title of the WordPress site | `My Site` |
+| `WP_ADMIN` | Admin username | `admin` |
+| `WP_ADMIN_EMAIL` | Admin email address | `admin@example.com` |
+| `WP_USER` | WordPress editor username | `editor` |
+| `WP_USER_EMAIL` | WordPress editor email address | `editor@example.com` |
+
+> **Note:** Passwords are **not** stored in `.env` — they are managed via Docker Secrets in the `secrets/` directory.
 
 ### Makefile Commands
 
